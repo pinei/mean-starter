@@ -69,5 +69,7 @@ http://localhost:3000 => My First Angular App
 
 ## References
 
-https://medium.com/defmethod-works/building-an-express-node-js-app-with-angular-2-and-the-twitter-api-4eebd06fecff
-https://angular.io/docs/ts/latest/quickstart.html
+* https://medium.com/defmethod-works/building-an-express-node-js-app-with-angular-2-and-the-twitter-api-4eebd06fecff
+* https://angular.io/docs/ts/latest/quickstart.html
+* http://blog.npmjs.org/post/101775448305/npm-and-front-end-packaging
+* https://scotch.io/tutorials/using-gruntjs-in-a-mean-stack-application
