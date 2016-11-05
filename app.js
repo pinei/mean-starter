@@ -8,53 +8,109 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+class Application {
+  constructor(express) {
+    this.app = express || express();
+  }
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client')));
+  setupViewEngine(engine) {
+    engine = engine || 'ejs';
+    this.app.set('views', path.join(__dirname, 'views'));
+    this.app.set('view engine', engine);
 
-app.use('/', routes);
-app.use('/users', users);
+    return this;
+  }
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+  setupLogger(env) {
+    env = env || 'dev';
+    this.app.use(logger(env));
 
-// error handlers
+    return this;
+  }
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+  setupParsers() {
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(cookieParser());
+
+    return this;
+  }
+
+  setupPublicFolder(folder) {
+    folder = folder || 'client'
+    this.app.use(express.static(path.join(__dirname, folder)));
+
+    return this;    
+  }
+
+  setupFavicon(folder, filename) {
+    folder = folder || 'client'
+    filename = filename || 'favicon.ico'
+    this.app.use(favicon(path.join(__dirname, folder, filename)));
+
+    return this;
+  }
+
+  setupRoutes() {
+    this.app.use('/', routes);
+    this.app.use('/users', users);
+
+    return this;  
+  }
+
+  setupErrorHandlers(env) {
+    // catch 404 and forward to error handler
+    this.app.use(function(req, res, next) {
+      var err = new Error('Not Found');
+      err.status = 404;
+      next(err);
     });
-  });
+
+    // development error handler
+    // will print stacktrace
+    if (env === 'development') {
+      this.app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+          message: err.message,
+          error: err
+        });
+      });
+    }
+
+    // production error handler
+    // no stacktraces leaked to user
+    this.app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+        message: err.message,
+        error: {}
+      });
+    });
+
+    return this;
+  }
+
+  setupPort(port) {
+    port = port || 3000
+    this.app.set('port', port);
+  }
+
+  getListener() {
+    return this.app
+  }
+
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
+var app = new Application(express())
+  .setupViewEngine('ejs')
+  .setupLogger('dev')
+  .setupParsers()
+  .setupPublicFolder('client')
+  .setupFavicon('client', '/assets/images/favicon.ico')
+  .setupRoutes()
+  .setupErrorHandlers(express().get('env'))
 
 
 module.exports = app;
