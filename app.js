@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var google_authorizer = require('./config/auth-google')
 
 class Application {
   constructor(express) {
@@ -92,13 +93,37 @@ class Application {
     return this;
   }
 
-  setupPort(port) {
-    port = port || 3000
-    this.app.set('port', port);
+  setupAuthorizer(authorizer) {
+    authorizer(this.app)
+
+    return this;
   }
 
-  getListener() {
-    return this.app
+  setupServer(http, port) {
+    port = port || 3000;
+    this.app.set('port', port);
+    this.server = http.createServer(this.app);
+
+    return this;
+  }
+
+  startServer() {
+    var port = this.app.get('port');
+    var server = this.server;
+
+    server.listen(port, function() {
+      var addr = server.address();
+      var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+      console.log('Listening on ' + bind);      
+    });
+
+    return this;
+  }
+  
+  onServer(event, callback) {
+    this.server.on(event, callback);
   }
 
 }
@@ -109,6 +134,8 @@ var app = new Application(express())
   .setupParsers()
   .setupPublicFolder('client')
   .setupFavicon('client', '/assets/images/favicon.ico')
+  .setupAuthorizer(google_authorizer)
+  // .setupAuthorizer(facebook_authorizer)
   .setupRoutes()
   .setupErrorHandlers(express().get('env'))
 
