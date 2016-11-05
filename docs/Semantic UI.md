@@ -13,6 +13,10 @@ The 2.2.6 version was not available at 2016-10-29
 
 Copy from [Semantic UI Fixed Template](http://semantic-ui.com/examples/fixed.html)
 
+## Login screen
+
+Copy from [Full Screen Login Form](http://semantic-ui.com/examples/login.html)
+
 ## References
 
 * [Semantic UI Recipes](http://semantic-ui.com/introduction/advanced-usage.html)
