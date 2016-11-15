@@ -6,6 +6,7 @@
 * NPM
 * Mongo DB
 
+
 ## Setting up Express
 
 ```bash
@@ -66,6 +67,48 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 - Open http://localhost:3000
 - It renders "My First Angular App"
+
+
+## Project structure
+
+```
+./bin → linux commands
+./client → front end project
+   ./src
+   	  ./resources → images, styles, etc.
+      ./main.ts
+      ./app.component.ts
+      ./app.module.ts
+   ./app → transpiled app
+      ./lib → javascript libraries
+      ./main.js
+      ./app.component.js
+      ./app.module.js
+   ./assets → public images, styles, etc.
+      ./images
+      ./styles
+   ./gulpfile.ts
+   ./systemjs.config.js
+   ./tsconfig.json
+./server → back end project
+   ./config
+      ./environment.js
+   ./routes
+      ./index.js
+   ./rest
+      ./users.js
+   ./views
+      ./error.ejs
+   ./models
+      ./users.js
+   ./app.js
+./docs → markdown documentation
+   ./images
+   *.md
+./node_modules
+./package.json
+README.md → this file
+```
 
 ## References
 
