@@ -14,27 +14,27 @@ gulp.task('clean', (cb) => {
 });
 
 /**
- * Compile TypeScript sources and create sourcemaps in build directory.
+ * Compile TypeScript sources and create sourcemaps in app directory.
  */
 gulp.task("compile", () => {
-    let tsResult = gulp.src("app/**/*.ts")
+    let tsResult = gulp.src("src/**/*.ts")
         .pipe(sourcemaps.init())
         .pipe(tsc(tsProject));
     return tsResult.js
-        .pipe(sourcemaps.write(".", {sourceRoot: '/app'}))
-        .pipe(gulp.dest("build"));
+        .pipe(sourcemaps.write(".", {sourceRoot: '/src'}))
+        .pipe(gulp.dest("app"));
 });
 
 /**
- * Copy all resources that are not TypeScript files into build directory.
+ * Copy all resources that are not TypeScript files into app directory.
  */
 gulp.task("resources", () => {
-    return gulp.src(["app/**/*", "!**/*.ts"])
-        .pipe(gulp.dest("build"));
+    return gulp.src(["src/**/*", "!**/*.ts"])
+        .pipe(gulp.dest("app"));
 });
 
 /**
- * Copy all required libraries into build directory.
+ * Copy all required libraries into app directory.
  */
 gulp.task("libs", () => {
     return gulp.src([
@@ -46,17 +46,17 @@ gulp.task("libs", () => {
             'zone.js/dist/**',
             '@angular/**/bundles/**'
         ], {cwd: "node_modules/**"}) /* Glob required here. */
-        .pipe(gulp.dest("build/lib"));
+        .pipe(gulp.dest("app/lib"));
 });
 
 /**
  * Watch for changes in TypeScript, HTML and CSS files.
  */
 gulp.task('watch', function () {
-    gulp.watch(["app/**/*.ts"], ['compile']).on('change', function (e) {
+    gulp.watch(["src/**/*.ts"], ['compile']).on('change', function (e) {
         console.log('TypeScript file ' + e.path + ' has been changed. Compiling.');
     });
-    gulp.watch(["app/**/*.html", "app/**/*.css"], ['resources']).on('change', function (e) {
+    gulp.watch(["src/**/*.html", "src/**/*.css"], ['resources']).on('change', function (e) {
         console.log('Resource file ' + e.path + ' has been changed. Updating.');
     });
 });

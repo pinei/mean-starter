@@ -38,17 +38,17 @@ class Application {
     return this;
   }
 
-  setupPublicFolder(folder) {
+  setupPublicFolder(path, folder) {
     folder = folder || 'client'
-    this.app.use(express.static(path.join(__dirname, folder)));
+    path = path || '/'
+    this.app.use(path, express.static(path.join(__dirname, folder)));
 
     return this;    
   }
 
-  setupFavicon(folder, filename) {
-    folder = folder || 'client'
-    filename = filename || 'favicon.ico'
-    this.app.use(favicon(path.join(__dirname, folder, filename)));
+  setupFavicon(file) {
+    file = file || 'favicon.ico'
+    this.app.use(favicon(path.join(__dirname, file)));
 
     return this;
   }
@@ -132,8 +132,9 @@ var app = new Application(express())
   .setupViewEngine('ejs')
   .setupLogger('dev')
   .setupParsers()
-  .setupPublicFolder('client')
-  .setupFavicon('client', '/assets/images/favicon.ico')
+  .setupPublicFolder('/', '../client/app')
+  .setupPublicFolder('/', '../client/assets')
+  .setupFavicon('../client/assets/images/favicon.ico')
   .setupAuthorizer(google_authorizer)
   // .setupAuthorizer(facebook_authorizer)
   .setupRoutes()
