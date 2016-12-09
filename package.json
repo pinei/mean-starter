@@ -3,19 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "npm install ./client",
+    "build:client": "cd client && npm install",
+    "build:server": "cd server && npm install",
+    "preinstall": "npm run build:client && npm run build:server",
     "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.15.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "ejs": "^2.5.2",
-    "express": "~4.13.4",
-    "morgan": "~1.7.0",
-    "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth20": "^1.0.0",
-    "serve-favicon": "~2.3.0"
   }
 }

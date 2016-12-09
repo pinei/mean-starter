@@ -38,10 +38,8 @@ class Application {
     return this;
   }
 
-  setupPublicFolder(path, folder) {
-    folder = folder || 'client'
-    path = path || '/'
-    this.app.use(path, express.static(path.join(__dirname, folder)));
+  setupPublicFolder(urlPath, localDir) {
+    this.app.use(urlPath, express.static(path.join(__dirname, localDir)));
 
     return this;    
   }

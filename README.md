@@ -116,3 +116,4 @@ README.md → this file
 * [Angular Quickstart](https://angular.io/docs/ts/latest/quickstart.html)
 * [NPM - Front End Packaging](http://blog.npmjs.org/post/101775448305/npm-and-front-end-packaging)
 * [GruntJS in a MEAN stack application](https://scotch.io/tutorials/using-gruntjs-in-a-mean-stack-application)
+* [How to Use npm as a Build Tool](https://www.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/)

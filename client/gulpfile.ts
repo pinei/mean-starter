@@ -19,7 +19,7 @@ gulp.task('clean', (cb) => {
 gulp.task("compile", () => {
     let tsResult = gulp.src("src/**/*.ts")
         .pipe(sourcemaps.init())
-        .pipe(tsc(tsProject));
+        .pipe(tsProject());
     return tsResult.js
         .pipe(sourcemaps.write(".", {sourceRoot: '/src'}))
         .pipe(gulp.dest("app"));
@@ -65,5 +65,5 @@ gulp.task('watch', function () {
  * Build the project.
  */
 gulp.task("build", ['compile', 'resources', 'libs'], () => {
-    console.log("Building the project ...");
+    console.log("Building the client ...");
 });
