@@ -75,20 +75,23 @@ app.use(express.static(path.join(__dirname, 'client')));
 ./bin → linux commands
 ./client → front end project
    ./src
-   	  ./resources → images, styles, etc.
+   	./resources → images, styles, etc.
       ./main.ts
       ./app.component.ts
       ./app.module.ts
+      ./systemjs.config.js
    ./app → transpiled app
       ./lib → javascript libraries
+      ./resources → images, styles, etc.
       ./main.js
       ./app.component.js
       ./app.module.js
    ./assets → public images, styles, etc.
       ./images
       ./styles
+      ./index.html
    ./gulpfile.ts
-   ./systemjs.config.js
+   ./package.json → client project
    ./tsconfig.json
 ./server → back end project
    ./config
@@ -102,12 +105,12 @@ app.use(express.static(path.join(__dirname, 'client')));
    ./models
       ./users.js
    ./app.js
+   ./package.json → server project
 ./docs → markdown documentation
    ./images
-   *.md
-./node_modules
+   ./*.md
 ./package.json
-README.md → this file
+./README.md → this file
 ```
 
 ## References
