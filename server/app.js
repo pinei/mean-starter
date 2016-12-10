@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var database = require('./config/database');
+
 var google_authorizer = require('./config/auth-google')
 
 class Application {
@@ -97,6 +99,13 @@ class Application {
     return this;
   }
 
+  setupDatabase() {
+    database.connect();
+
+    return this;
+  }
+
+
   setupServer(http, port) {
     port = port || 3000;
     this.app.set('port', port);
@@ -137,6 +146,7 @@ var app = new Application(express())
   // .setupAuthorizer(facebook_authorizer)
   .setupRoutes()
   .setupErrorHandlers(express().get('env'))
+  .setupDatabase()
 
 
 module.exports = app;
