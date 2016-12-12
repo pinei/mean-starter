@@ -10,6 +10,9 @@ var database = {
 		    .on('disconnected', function() { console.log('MongoDB disconnected') } )
 		    .once('open', function() { console.log('MongoDB connected') } );
 	},
+	disconnect: function() {
+		mongoose.disconnect(function() { console.log('MongoDB disconnected') } )
+	},
 	api: mongoose
 }
 
