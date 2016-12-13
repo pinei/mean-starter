@@ -1,4 +1,5 @@
 var assert = require('assert');
+var async = require('async');
 
 var db = require('../config/database')
 
@@ -9,13 +10,21 @@ var Brewer = require('../models/beer').Brewer;
 
 describe('Beer Model', function() {
 
-	before(function() {
+	before(function(done) {
 		db.url = 'mongodb://localhost/mean-starter-test';
 	    db.connect();
 
-	    Beer.remove({})
-	    Brewer.remove({})
-	    BeerStyle.remove({})
+	    async.eachSeries([Beer, Brewer, BeerStyle], function(item, callback) {
+	    	item.remove({}, function(err) {
+	    		if (err)
+	    			callback(err);
+	    		else
+	    			callback();
+	    	});
+	    }, function(err) {
+					assert(err == null, err);
+					done();
+	    });
 	});
 
 	after(function() {
@@ -35,27 +44,16 @@ describe('Beer Model', function() {
 			description: 'A type of beer that is conditioned at low temperatures, normally at the brewery.',
 			kindOf: beer._id });
 
-		beer.save()
-		ale.save()
-		lager.save()
 
-
-/*
-        Company.create(sample, function (err, result) {
-            if (err) throw err;
-            Company.findOne({ name: 'AMBEV' }, function (err, result) {
-                if (err) throw err;
-
-                assert.equal(result.name, sample.name);
-                assert.equal(result.website, sample.website);
-
-                Company.findByIdAndRemove(result._id, function (err, result) {
-                    if (err) throw err;
-                    done();
-                });
-            });
-        });
-*/
+		async.eachSeries([beer, ale, lager], function(item, callback) {
+			// for each item
+			item.save(function(err) {
+				callback(err)
+			});
+		}, function(err) {
+			assert(err == null, err);
+			done();
+		});
 		
 	});
 });

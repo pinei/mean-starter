@@ -10,7 +10,8 @@ var beerStyleSchema = new db.Schema({
 	    	required: true
 	    },
 	    kindOf : {
-	    	type: db.Schema.ObjectId
+	    	type:  db.Schema.Types.ObjectId,
+	    	ref: 'BeerStyle'
 	    }
 	},
 	{ collection: 'beerStyles'} );
@@ -33,18 +34,18 @@ var brewerSchema = new db.Schema({
 	},
 	{ collection: 'brewers'} );
 
-
 var beerSchema = new db.Schema({
 		name: {
 			type: String,
 			required: true
 		},
-		styles: [db.Schema.ObjectId],
-		brewer: db.Schema.ObjectId
+		styles: [ { type: db.Schema.Types.ObjectId, ref: 'BeerStyle' } ],
+		brewer: {type: db.Schema.Types.ObjectId, ref: 'Brewer' },
+		stars: { type: Number },
+		votes: { type: Number }
 	},
-	{ collection: 'beers'} );
+	{ collection: 'beers'});
 
-
-module.exports.BeerStyle = db.model('BeerStyle', beerStyleSchema);
-module.exports.Brewer = db.model('Brewer', brewerSchema);
-module.exports.Beer = db.model('Beer', beerSchema);
+exports.BeerStyle = db.model('BeerStyle', beerStyleSchema);
+exports.Brewer = db.model('Brewer', brewerSchema);
+exports.Beer = db.model('Beer', beerSchema);
