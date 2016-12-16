@@ -10,12 +10,10 @@ var logger = new (winston.Logger)({
       prepend: true,
       timestamp: true,
       level: 'debug'
-    }),
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: './logs/all-logs.log' })
+    })
   ],
   exceptionHandlers: [
-    new winston.transports.File({ filename: 'exceptions.log' }),
+    new winston.transports.File({ filename: './logs/exceptions.log' }),
   ]
 });
 

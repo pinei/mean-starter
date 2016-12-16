@@ -2,8 +2,6 @@
 
 ## Setting up a logging framework
 
-
-
 ## References
 
 * [How to log in node.js](https://docs.nodejitsu.com/articles/intermediate/how-to-log/)
