@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var logger = require('./config/logger');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
@@ -25,9 +25,8 @@ class Application {
     return this;
   }
 
-  setupLogger(env) {
-    env = env || 'dev';
-    this.app.use(logger(env));
+  setupLogger() {
+    this.app.use(logger.middleware);
 
     return this;
   }
@@ -58,6 +57,16 @@ class Application {
     this.app.use('/users', users);
 
     return this;  
+  }
+
+  setupAPIs() {
+    // API
+    var api = require('./config/api');
+    this.app.use('/api', api(app.Router()));
+
+    // makes it impossible for this API to be used by another site
+    // self.api.use('/api', require('cors')());
+    // self.api.use('/api', api)
   }
 
   setupErrorHandlers(env) {
@@ -123,7 +132,7 @@ class Application {
       var bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-      console.log('Listening on ' + bind);      
+      logger.info('Listening on ' + bind);      
     });
 
     return this;
@@ -137,7 +146,7 @@ class Application {
 
 var app = new Application(express())
   .setupViewEngine('ejs')
-  .setupLogger('dev')
+  .setupLogger()
   .setupParsers()
   .setupPublicFolder('/', '../client/app')
   .setupPublicFolder('/', '../client/assets')
