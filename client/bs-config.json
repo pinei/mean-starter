@@ -1,0 +1,7 @@
+{
+    "server" : [ "assets", "app" ],
+    "files" : [
+    	"./assets/**/*.{js, html, css, svg, ico, png}",
+    	"./app/**/*.{js, map}"
+    ]
+}
